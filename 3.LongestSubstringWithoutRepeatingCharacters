@@ -1,0 +1,60 @@
+public class Solution
+{
+    static void Main()
+    {
+        string first = "dvdf";
+        int result = LengthOfLongestSubstring(first);
+        Console.Write(result);
+    }
+    public static int LengthOfLongestSubstring(string s)
+    {
+        int count = 0;
+        int result = 0;
+        int idx = 0;
+
+        List<char> seen = new List<char>();
+
+        while (idx < s.Length)
+        {
+            if (seen.Contains(s[idx]))
+            {
+                idx = TraceBackToChar(s, seen, idx - 1, s[idx]);
+
+                if (count > result)
+                {
+                    result = count;
+                }
+
+                count = 0;
+            }
+
+            seen.Add(s[idx]);
+            idx++;
+            count++;
+        }
+
+        if (count > result)
+        {
+            result = count;
+        }
+
+        return result;
+    }
+
+    public static int TraceBackToChar(string s, List<char> seen, int idx, char target)
+    {
+        /* Can use this while because we only call
+           this function when we find a duplicate
+           thus it will always stop */
+        while (true)
+        {
+            if (s[idx] == target)
+            {
+                seen.Remove(s[idx]);
+                return idx + 1;
+            }
+            seen.Remove(s[idx]);
+            idx--;
+        }
+    }
+}
